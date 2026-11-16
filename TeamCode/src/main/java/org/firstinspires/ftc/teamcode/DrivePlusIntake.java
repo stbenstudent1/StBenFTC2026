@@ -37,10 +37,10 @@ public class DrivePlusIntake extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive"); // 1 on control hub
         Intake = hardwareMap.get(DcMotor.class, "intake_main"); // 0 on expansion
 
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         Intake.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses START)f
@@ -54,16 +54,18 @@ public class DrivePlusIntake extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
+            /* THIS PART WAS FROM OWEN'S DRIVE CODE, PLEASE TEST */
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double y   = -gamepad1.left_stick_y;
+            double x =  gamepad1.left_stick_x;
+            double rx     =  gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power
-            double frontLeftPower  = axial + lateral + yaw;
-            double frontRightPower = axial - lateral - yaw;
-            double backLeftPower   = axial - lateral + yaw;
-            double backRightPower  = axial + lateral - yaw;
+            double frontLeftPower  = (y + x + rx);
+            double frontRightPower   = (y - x + rx);
+            double backLeftPower = (y - x - rx);
+            double backRightPower  = (y + x - rx);
+            /*           */
 
             // Normalize the values so no wheel power exceeds 100%
             max = Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower));
