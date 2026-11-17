@@ -50,6 +50,11 @@ public class AutoReturnToBase extends LinearOpMode {
                 setAllMotorPower(0.1);
                 sleep(1000);
 
+                // Stop motors
+                setAllMotorPower(0);
+                // Wait 10 seconds before returning
+                sleep(10000);
+
                 // Move backward
                 setAllMotorPower(-0.1);
                 sleep(1000);
