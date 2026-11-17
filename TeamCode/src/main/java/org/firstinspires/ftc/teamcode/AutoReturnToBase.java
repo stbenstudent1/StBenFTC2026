@@ -52,6 +52,8 @@ public class AutoReturnToBase extends LinearOpMode {
                 // Move backward
                 setAllMotorPower(-0.1);
                 sleep(1000);
+
+                auto_finished = true;
             } else {
                 telemetry.addLine("Auto Finished");
                 telemetry.update();
