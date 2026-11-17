@@ -41,6 +41,7 @@ public class AutoReturnToBase extends LinearOpMode {
 
         while (opModeIsActive())
         {
+            // Run auto until bot returns to base and wait.
             if (!auto_finished) {
                 telemetry.addLine("Running Auto...");
                 telemetry.update();
