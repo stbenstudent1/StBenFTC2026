@@ -27,6 +27,7 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
     // Is Intake active, starts false
     private boolean IntakeActive = false;
     private boolean PrecisionMode = false;
+    private boolean ReverseIntake = false;
 
     private boolean LauncherActive = false;
 
@@ -39,7 +40,7 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive"); // 1 on control hub
         Intake = hardwareMap.get(DcMotor.class, "intake_main"); // 0 on expansion
 
-        Launcher = hardwareMap.get(DcMotor.class, "launcher");
+        Launcher = hardwareMap.get(DcMotor.class, "launcher"); // 3 on expansion
 
         Launcher.setDirection(DcMotor.Direction.FORWARD);
 
@@ -141,6 +142,9 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
                 }
             }
 
+            // REVERSE INTAKE IF DOWN BUTTON IS PRESSED
+            ReverseIntake = !gamepad1.dpad_down;
+
             // LAUNCHER SECTION
                 LauncherActive = gamepad1.circle;
 
@@ -156,7 +160,15 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
             if (!IntakeActive) {
                 Intake.setPower(0);
             } else {
-                Intake.setPower(IntakePowerState);
+                // there's probably a better way to do this but idkq
+                double ReverseIntakePower = 1;
+
+                        if(ReverseIntake)
+                        {
+                            ReverseIntakePower = -1;
+                        }
+
+                Intake.setPower(IntakePowerState * ReverseIntakePower);
             }
 
             telemetry.addData("PrecisionMode", PrecisionMode);

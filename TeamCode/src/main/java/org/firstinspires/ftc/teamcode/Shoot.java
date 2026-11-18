@@ -27,7 +27,7 @@ public class Shoot extends LinearOpMode {
 
         Intake = hardwareMap.get(DcMotor.class, "intake_main"); // 0 on expansion
 
-        Launcher = hardwareMap.get(DcMotor.class, "launcher");
+        Launcher = hardwareMap.get(DcMotor.class, "launcher"); // 3 on expansion
 
         Launcher.setDirection(DcMotor.Direction.FORWARD);
 
