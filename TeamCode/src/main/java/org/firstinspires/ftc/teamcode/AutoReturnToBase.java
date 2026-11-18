@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+// Move forward 1 second, wait 10 seconds, move backward 1 second
+// THIS AUTO MODE HAS BEEN TESTED AND DOES ITS INTENDED FUNCTION PERFECTLY
 @Autonomous(name = "Auto Return To Base", group = "Linear OpMode")
 public class AutoReturnToBase extends LinearOpMode {
     private DcMotor frontLeftDrive = null;
@@ -29,7 +32,7 @@ public class AutoReturnToBase extends LinearOpMode {
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive"); // 1 on control hub
 
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
@@ -47,8 +50,12 @@ public class AutoReturnToBase extends LinearOpMode {
                 telemetry.update();
 
                 // Move forward
-                setAllMotorPower(0.1);
+                setAllMotorPower(0.5);
                 sleep(1000);
+                setAllMotorPower(0);
+
+                // Wait 10 seconds before returning
+                sleep(10000);
 
                 // Stop motors
                 setAllMotorPower(0);
@@ -56,8 +63,9 @@ public class AutoReturnToBase extends LinearOpMode {
                 sleep(10000);
 
                 // Move backward
-                setAllMotorPower(-0.1);
+                setAllMotorPower(-0.5);
                 sleep(1000);
+                setAllMotorPower(0);
 
                 auto_finished = true;
             } else {
