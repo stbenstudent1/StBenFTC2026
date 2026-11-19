@@ -141,8 +141,8 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
                 }
             }
 
-            // REVERSE INTAKE IF DOWN BUTTON IS PRESSED
-            ReverseIntake = !gamepad1.dpad_down;
+            // REVERSE INTAKE IF RIGHT BUTTON IS PRESSED
+            ReverseIntake = !gamepad1.dpad_right;
 
             // LAUNCHER SECTION
                 LauncherActive = gamepad1.circle;
