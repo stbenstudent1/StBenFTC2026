@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // This is the intake class and functionaity combined with the driving function
 // THIS HAS SHOOTING
 
-@TeleOp(name="DriveIntake Plus Shoot", group="Linear OpMode")
+@TeleOp(name="Full Bot", group="Linear OpMode")
 public class DrivePlusIntakeShoot extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors and intake.
@@ -63,18 +63,17 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
 
             /* THIS PART WAS FROM OWEN'S DRIVE CODE, PLEASE TEST */
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double y   = -gamepad1.left_stick_y;
-            double x =  gamepad1.left_stick_x;
-            double rx     =  gamepad1.right_stick_x;
+            double y  = -gamepad1.left_stick_x;
+            double x  = gamepad1.right_stick_x;
+            double rx = gamepad1.right_stick_y;
 
-            // Combine the joystick requests for each axis-motion to determine each wheel's power
-            double frontLeftPower  = (y + x + rx);
-            double frontRightPower   = (y - x + rx);
-            double backLeftPower = (y - x - rx);
-            double backRightPower  = (y + x - rx);
-            /*           */
+            // Mecanum wheel powers
+            double frontLeftPower  = y + x + rx;
+            double frontRightPower = y - x - rx;
+            double backLeftPower   = y - x + rx;
+            double backRightPower  = y + x - rx;
 
-            // Normalize the values so no wheel power exceeds 100%
+            // Normalize wheel powers
             max = Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower));
             max = Math.max(max, Math.abs(backLeftPower));
             max = Math.max(max, Math.abs(backRightPower));
