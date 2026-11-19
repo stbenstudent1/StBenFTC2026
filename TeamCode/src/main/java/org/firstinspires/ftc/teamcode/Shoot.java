@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 // THIS IS JUST SHOOTING & INTAKE
 
-@TeleOp(name="DriveIntake Plus Shoot", group="Linear OpMode")
+@TeleOp(name="Shoot", group="Linear OpMode")
 public class Shoot extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors and intake.
