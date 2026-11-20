@@ -172,7 +172,7 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
             if (IntakeActive) {
                 targetIntakePower = IntakePowerState;
 
-                if (gamepad1.dpad_down) {
+                if (ReverseIntake) {
                     targetIntakePower = -IntakePowerState;
                 }
             }
