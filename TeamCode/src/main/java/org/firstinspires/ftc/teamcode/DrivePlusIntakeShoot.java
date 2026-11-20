@@ -22,6 +22,12 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
     private DcMotor Launcher = null;
     private DcMotor Intake;
 
+    // Actual intake power that changes gradually
+    private double currentIntakePower = 0;
+
+    // How quickly the intake changes power
+    private final double intakeRampRate = 0.05;
+
     // Double 0-1 determining how fast the intake will spin
     private double IntakePowerState = 1;
     // Is Intake active, starts false
@@ -30,6 +36,9 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
     private boolean ReverseIntake = false;
 
     private boolean LauncherActive = false;
+
+    private boolean TrianglePressed = false;
+    private boolean SquarePressed = false;
 
     @Override
     public void runOpMode() {
@@ -95,9 +104,10 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
             /* Precision mode section */
 
             // Square toggles precision mode
-            if(gamepad1.squareWasPressed() && gamepad1.squareWasReleased())
+            if(gamepad1.squareWasPressed() && (gamepad1.squareWasReleased() || !SquarePressed))
             {
                 PrecisionMode = !PrecisionMode;
+                SquarePressed = true;
             }
 
             /* */
@@ -119,9 +129,10 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
             /* INTAKE SECTION */
 
             // Triangle toggles the intake
-            if(gamepad1.triangleWasPressed() && gamepad1.triangleWasReleased())
+            if(gamepad1.triangleWasPressed() && (gamepad1.triangleWasReleased() || !TrianglePressed))
             {
                 IntakeActive = !IntakeActive;
+                TrianglePressed = true;
             }
 
             // Right Trigger press = increase motor power by 0.2, max 1
@@ -155,24 +166,39 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
             }
 
 
-            // Intake power 0 if not active, else PowerState
-            if (!IntakeActive) {
-                Intake.setPower(0);
-            } else {
-                // there's probably a better way to do this but idkq
-                double ReverseIntakePower = 1;
+            // Intake target power
+            double targetIntakePower = 0;
 
-                        if(ReverseIntake)
-                        {
-                            ReverseIntakePower = -1;
-                        }
+            if (IntakeActive) {
+                targetIntakePower = IntakePowerState;
 
-                Intake.setPower(IntakePowerState * ReverseIntakePower);
+                if (gamepad1.dpad_down) {
+                    targetIntakePower = -IntakePowerState;
+                }
             }
+
+            // Gradually move current power toward target power
+            if (currentIntakePower < targetIntakePower) {
+                currentIntakePower += intakeRampRate;
+
+                if (currentIntakePower > targetIntakePower) {
+                    currentIntakePower = targetIntakePower;
+                }
+            }
+            else if (currentIntakePower > targetIntakePower) {
+                currentIntakePower -= intakeRampRate;
+
+                if (currentIntakePower < targetIntakePower) {
+                    currentIntakePower = targetIntakePower;
+                }
+            }
+
+            // Apply the gradually changing power
+            Intake.setPower(currentIntakePower);
 
             telemetry.addData("PrecisionMode", PrecisionMode);
             telemetry.addData("IntakeActive", IntakeActive);
-            telemetry.addData("IntakeTargetPower", IntakePowerState);
+            telemetry.addData("IntakeTargetPower", currentIntakePower);
             telemetry.addData("IntakePower", Intake.getPower());
 
             telemetry.addData("LauncherActive", LauncherActive);
