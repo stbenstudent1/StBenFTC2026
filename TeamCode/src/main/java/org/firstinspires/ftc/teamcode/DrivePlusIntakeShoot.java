@@ -177,7 +177,7 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
                 }
             }
 
-            // Gradually move current power toward target power
+            // Gradually move current power toward target power.
             if (currentIntakePower < targetIntakePower) {
                 currentIntakePower += intakeRampRate;
 
