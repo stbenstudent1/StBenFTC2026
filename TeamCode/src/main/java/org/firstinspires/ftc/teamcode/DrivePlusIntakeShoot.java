@@ -72,9 +72,10 @@ public class DrivePlusIntakeShoot extends LinearOpMode {
 
             /* THIS PART WAS FROM OWEN'S DRIVE CODE, PLEASE TEST */
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double y  = -gamepad1.left_stick_x;
-            double x  = gamepad1.right_stick_x;
-            double rx = gamepad1.right_stick_y;
+            // The variable names is a little misleading sorry im lazy to fix it :P
+            double y  = -gamepad1.right_stick_x; // y controls spin
+            double x  = gamepad1.left_stick_x; // x controls strafing
+            double rx = gamepad1.left_stick_y; // rx controls forwards/backwards
 
             // Mecanum wheel powers
             double frontLeftPower  = y + x + rx;
